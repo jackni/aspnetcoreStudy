@@ -27,7 +27,7 @@ namespace NetCoreWebApi
         {
             //DI
             services.AddScoped<IGreetingService, GreetingService>();
-            services.AddScoped<ICalcuator, Calcuator>();
+            services.AddTransient<ICalcuator, Calcuator>();
             services.AddScoped<IMathService, MathService>();
             
             //mvc dependency
