@@ -5,12 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreWebApi.Services;
 using NetCoreWebApi.Models;
+using NetCoreWebApi.Infrastructure.Filter;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace NetCoreWebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [ApiVersion("2.0")]
+    [ApiVersion("1.0", Deprecated = true)]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ServiceFilter(typeof(LoggingActionFilterAttribute))]
     public class MatchController : Controller
     {
         private readonly IMathService _mathService;
@@ -20,8 +25,18 @@ namespace NetCoreWebApi.Controllers
             _mathService = mathService;
         }
 
-        [HttpPost( Name ="Add")]
+        [HttpPost]
+        [Route("Add")]
+        [ApiExplorerSettings(GroupName = "v1")]
         public IActionResult Add(CalcuatorModel calcuatorRequest)
+        {
+            return Ok(_mathService.Add(calcuatorRequest.X, calcuatorRequest.Y));
+        }
+
+        [HttpPost, MapToApiVersion("2.0")]
+        [Route("Add2")]
+        [ApiExplorerSettings(GroupName = "v2")]
+        public IActionResult Add2(CalcuatorModel calcuatorRequest)
         {
             return Ok(_mathService.Add(calcuatorRequest.X, calcuatorRequest.Y));
         }
