@@ -74,7 +74,8 @@ namespace NetCoreWebApi
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Demo API ");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Demo API V1");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "My Demo API V2");
                 //c.ConfigureOAuth2
                 c.ShowRequestHeaders();
             });
