@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetCoreWebApi.Infrastructure.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace NetCoreWebApi.Services
             _calcuator = calcuator;
         }
 
+        [Log("MathService")]
         public string Add(float x, float y)
         {
             return string.Format("{0:f2}", _calcuator.Add(x, y));

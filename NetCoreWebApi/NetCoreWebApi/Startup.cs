@@ -49,15 +49,13 @@ namespace NetCoreWebApi
 
             //register logging as AOP
             services.AddScoped<LoggingActionFilterAttribute>();
-
+            
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My Demo API", Version = "v1" });
                 c.SwaggerDoc("v2", new Info { Title = "My Demo API", Version = "v2" });
             });
-
-            //services.AddSwaggerGen( c=> { c.s})
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +77,7 @@ namespace NetCoreWebApi
                 //c.ConfigureOAuth2
                 c.ShowRequestHeaders();
             });
-
+            
             app.UseMvc();
         }
     }
