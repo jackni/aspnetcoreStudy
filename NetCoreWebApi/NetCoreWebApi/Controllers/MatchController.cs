@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using NetCoreWebApi.Services;
 using NetCoreWebApi.Models;
 using NetCoreWebApi.Infrastructure.Filter;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace NetCoreWebApi.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [ApiVersion("2.0")]
     [ApiVersion("1.0", Deprecated = true)]

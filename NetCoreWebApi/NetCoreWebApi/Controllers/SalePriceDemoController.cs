@@ -19,6 +19,11 @@ namespace NetCoreWebApi.Controllers
             _itemPriceService = itemPriceService;
         }
 
+        /// <summary>
+        /// GetItemBasePrice [Demo Swagger func description]
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(ItemPriceResponse), 200)]
         [ProducesResponseType(typeof(ItemPriceResponse), 400)]

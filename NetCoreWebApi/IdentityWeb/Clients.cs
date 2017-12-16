@@ -14,17 +14,6 @@ namespace IdentityWeb
         {
             return new List<Client> {
                 new Client {
-                    ClientId = "oauthClient",
-                    ClientName = "Example Client Credentials Client Application",
-                    //ClientUri = "", this should be point to the web api, i will config it to my swagger endpoint
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = new List<Secret> {
-                        new Secret("password".Sha256()) //client private key
-                    },
-                    AllowedScopes = new List<string> {"customAPI.read"}
-                }
-                ,
-                new Client {
                     ClientId = "openIdConnectClient",
                     ClientName = "Example Implicit Client Application",
                     AllowedGrantTypes = GrantTypes.Implicit,
@@ -36,10 +25,26 @@ namespace IdentityWeb
                         "role",
                         "customAPI.write"
                     },
-                    //https://localhost:44357/
-                    //https://localhost:44302
+
                     RedirectUris = new List<string> {"https://localhost:44357/signin-oidc"},
                     PostLogoutRedirectUris = new List<string> {"https://localhost:44357"}
+                },
+                // OpenID Connect implicit flow
+                new Client
+                {
+                    ClientId = "swaggerui",
+                    ClientName = "Swagger UI",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                   
+                    RedirectUris = { "http://localhost:3778/swagger/o2c.html" },
+                    PostLogoutRedirectUris = { "http://localhost:3778/swagger/" },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        "api1"
+                    }
+
                 }
             };
         }

@@ -39,11 +39,6 @@ namespace IdentityWeb
             app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
-
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello Identity Server!");
-            //});
         }
     }
 }

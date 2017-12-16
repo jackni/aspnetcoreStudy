@@ -13,6 +13,7 @@ using NetCoreWebApi.Services;
 using NetCoreWebApi.Infrastructure.Filter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using IdentityServer4.AccessTokenValidation;
 
 namespace NetCoreWebApi
 {
@@ -35,6 +36,15 @@ namespace NetCoreWebApi
 
             services.AddScoped<IItemPriceService, ItemPriceService>();
 
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "https://localhost:44302";
+                    options.RequireHttpsMetadata = false;
+
+                    options.ApiName = "api1";
+                });
+
             //mvc dependency
             services.AddMvc();
 
@@ -55,6 +65,22 @@ namespace NetCoreWebApi
             {
                 c.SwaggerDoc("v1", new Info { Title = "My Demo API", Version = "v1" });
                 c.SwaggerDoc("v2", new Info { Title = "My Demo API", Version = "v2" });
+
+                // Define the OAuth2.0 scheme that's in use (i.e. Implicit Flow)
+                c.AddSecurityDefinition("oauth2", 
+                    new OAuth2Scheme
+                    {
+                        Type = "oauth2",
+                        Flow = "implicit",
+                        AuthorizationUrl = "https://localhost:44302/connect/authorize",
+                        TokenUrl = "http://localhost:44302/connect/token",
+                        Scopes = new Dictionary<string, string>()
+                        {
+                            { "api1", "My Demo API" }
+                        }
+                    }
+                );
+               
             });
         }
 
@@ -65,6 +91,7 @@ namespace NetCoreWebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -74,10 +101,11 @@ namespace NetCoreWebApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Demo API V1");
                 c.SwaggerEndpoint("/swagger/v2/swagger.json", "My Demo API V2");
-                //c.ConfigureOAuth2
+                c.ConfigureOAuth2("swaggerui", "", "", "Swagger UI");
+
                 c.ShowRequestHeaders();
             });
-            
+
             app.UseMvc();
         }
     }
