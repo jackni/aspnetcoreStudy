@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  #rabbitmq:
+  #  image: rabbitmq
+  #  this is public,
+
+  identityweb:
+    image: identityweb:identityweb
+    container_name: idsrv
+    #hostname: idsrv
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    network_mode: bridge
+
+    ports:
+        - "44302:80"
+    build:
+      context: .
+      dockerfile: IdentityWeb/Dockerfile
+      
+
+  netcorewebapi:
+    image: netcorewebapi:demoWebApi
+    container_name: demoWebApi
+    network_mode: bridge
+    ports:
+        - "3778:80"
+    build:
+     context: .
+     dockerfile: NetCoreWebApi/Dockerfile
+      

@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  identityweb:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      #- "80"
+      - "44302"
+
+  netcorewebapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      #- "80"
+      - "3778"
